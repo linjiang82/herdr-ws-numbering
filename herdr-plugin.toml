@@ -1,0 +1,31 @@
+id = "local.ws-numbering"
+name = "Workspace Numbering"
+version = "0.1.0"
+min_herdr_version = "0.9.1"
+description = "Show each workspace's number in the sidebar via a $num token."
+platforms = ["linux", "macos"]
+
+[[startup]]
+command = ["bin/ws-numbering"]
+
+[[events]]
+on = "workspace.created"
+command = ["bin/ws-numbering"]
+
+[[events]]
+on = "workspace.closed"
+command = ["bin/ws-numbering"]
+
+[[events]]
+on = "workspace.moved"
+command = ["bin/ws-numbering"]
+
+[[events]]
+on = "workspace.reordered"
+command = ["bin/ws-numbering"]
+
+[[actions]]
+id = "refresh"
+title = "Refresh workspace numbers"
+contexts = ["workspace"]
+command = ["bin/ws-numbering"]

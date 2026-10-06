@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Report each workspace's sidebar number as the custom `$num` token.
+set -u
+
+herdr_bin=${HERDR_BIN_PATH:-herdr}
+source_id=ws-numbering
+
+# Optional format override, e.g. FORMAT='[%s]'. Lives in the plugin config dir.
+FORMAT='%s'
+config_file=${HERDR_PLUGIN_CONFIG_DIR:-}/config
+[ -n "${HERDR_PLUGIN_CONFIG_DIR:-}" ] && [ -f "$config_file" ] && . "$config_file"
+
+workspaces=$("$herdr_bin" workspace list) || exit 1
+
+printf '%s\n' "$workspaces" \
+  | jq -r '.result.workspaces[] | select(.number != null) | "\(.workspace_id)\t\(.number)"' \
+  | while IFS=$'\t' read -r ws_id number; do
+      # shellcheck disable=SC2059
+      label=$(printf "$FORMAT" "$number")
+      "$herdr_bin" workspace report-metadata "$ws_id" --source "$source_id" --token "num=$label" >/dev/null \
+        || printf 'ws-numbering: failed to report %s\n' "$ws_id" >&2
+    done
