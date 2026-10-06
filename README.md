@@ -29,12 +29,12 @@ Then `herdr server reload-config`.
 `workspace.reordered`. Run it manually with:
 
 ```bash
-herdr plugin action invoke local.ws-numbering.refresh
+herdr plugin action invoke linjiang82.ws-numbering.refresh
 ```
 
 ## Format
 
-Create `$(herdr plugin config-dir local.ws-numbering)/config`:
+Create `$(herdr plugin config-dir linjiang82.ws-numbering)/config`:
 
 ```bash
 FORMAT='[%s]'
